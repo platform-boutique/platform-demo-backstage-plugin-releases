@@ -1,0 +1,23 @@
+site_name: "Backstage plugin - Releases"
+site_description: "What runs, what is declared, what is released: release state for the platform-demo portal."
+repo_url: https://github.com/platform-boutique/platform-demo-backstage-plugin-releases
+edit_uri: edit/main/docs/
+
+plugins:
+  - techdocs-core
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - "Overview": index.md
+  - "How it works": how-it-works.md
+  - "Install and configure": install.md
+  - "Develop": develop.md
