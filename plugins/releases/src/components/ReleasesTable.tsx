@@ -1,5 +1,5 @@
-import { Chip, makeStyles } from '@material-ui/core';
-import { Table, TableColumn } from '@backstage/core-components';
+import { Chip, Table, TableBody, TableCell, TableHead, TableRow, makeStyles } from '@material-ui/core';
+import { InfoCard } from '@backstage/core-components';
 import { AppRelease, ReleaseState } from '../types';
 
 const useStyles = makeStyles(theme => ({
@@ -23,25 +23,41 @@ const short = (d?: string) => (d ? d.replace('sha256:', '').slice(0, 12) : '-');
 
 export function ReleasesTable(props: { releases: AppRelease[]; title: string; showApp?: boolean }) {
   const c = useStyles();
-  const columns: TableColumn<AppRelease>[] = [
-    ...(props.showApp ? [{ title: 'Application', field: 'app' } as TableColumn<AppRelease>] : []),
-    { title: 'Env', field: 'env', width: '5em' },
-    {
-      title: 'State',
-      field: 'state',
-      render: r => <Chip size="small" className={`${c.chip} ${c[STATE[r.state].cls]}`} label={STATE[r.state].label} />,
-    },
-    { title: 'Argo CD', render: r => `${r.sync} / ${r.health}` },
-    { title: 'Running', render: r => <span className={c.mono}>{short(r.deployedDigest)}</span> },
-    { title: 'Declared', render: r => <span className={c.mono}>{short(r.desiredDigest)}</span> },
-    { title: 'Revision', render: r => <span className={c.mono}>{r.revision ?? '-'}</span> },
-  ];
   return (
-    <Table<AppRelease>
-      title={props.title}
-      columns={columns}
-      data={props.releases}
-      options={{ paging: props.releases.length > 20, pageSize: 20, search: props.releases.length > 8, padding: 'dense' }}
-    />
+    <InfoCard title={props.title} noPadding>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            {props.showApp && <TableCell>Application</TableCell>}
+            <TableCell>Env</TableCell>
+            <TableCell>State</TableCell>
+            <TableCell>Argo CD</TableCell>
+            <TableCell>Running</TableCell>
+            <TableCell>Declared</TableCell>
+            <TableCell>Revision</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {props.releases.map(r => (
+            <TableRow key={r.application} hover>
+              {props.showApp && <TableCell>{r.app}</TableCell>}
+              <TableCell>{r.env}</TableCell>
+              <TableCell>
+                <Chip size="small" className={`${c.chip} ${c[STATE[r.state].cls]}`} label={STATE[r.state].label} />
+              </TableCell>
+              <TableCell>{`${r.sync} / ${r.health}`}</TableCell>
+              <TableCell className={c.mono}>{short(r.deployedDigest)}</TableCell>
+              <TableCell className={c.mono}>{short(r.desiredDigest)}</TableCell>
+              <TableCell className={c.mono}>{r.revision ?? '-'}</TableCell>
+            </TableRow>
+          ))}
+          {props.releases.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={7}>No deployments found.</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </InfoCard>
   );
 }
