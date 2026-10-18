@@ -6,10 +6,9 @@ metadata:
   description: "Release state of every application in the portal: what Argo CD runs, what the Helm repository declares, and the latest release tag."
   annotations:
     github.com/project-slug: platform-boutique/platform-demo-backstage-plugin-releases
+    backstage.io/source-location: url:https://github.com/platform-boutique/platform-demo-backstage-plugin-releases/tree/main/
     backstage.io/techdocs-ref: dir:.
   tags: [backstage, plugin, gitops, releases]
-  links:
-    - { url: "https://github.com/platform-boutique/platform-demo-backstage-plugin-releases", title: Repository, icon: github }
 spec:
   type: backstage-plugin
   lifecycle: experimental
