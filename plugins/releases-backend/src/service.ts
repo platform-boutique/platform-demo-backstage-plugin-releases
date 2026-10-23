@@ -31,7 +31,7 @@ export class ReleasesService {
       const digest = values?.image?.digest;
       return digest ? { digest } : {};
     } catch (e) {
-      // not every application has a values file with an image (monitoring-local, platform-gateway ...)
+      // not every application has a values file with an image (monitoring, platform-gateway ...)
       return { error: (e as Error).name === 'NotFoundError' ? undefined : (e as Error).message };
     }
   }

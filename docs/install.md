@@ -20,6 +20,6 @@ releases:
 
 The portal's ServiceAccount needs `get`, `list` and `watch` on `applications.argoproj.io` (it has them: `backstage-read` in the Helm
 repository's `backstage` chart). The host of `valuesUrl` must be readable by Backstage's URL reader: a GitHub integration for
-github.com, or `backend.reading.allow` for anything else (the local demo serves a staging copy that way).
+github.com, or `backend.reading.allow` for anything else.
 
 Entities need `argocd/app-name: <env>-<app>` and, for the latest tag, `github.com/project-slug: <owner>/<repo>`.
